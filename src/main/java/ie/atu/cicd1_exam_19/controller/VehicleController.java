@@ -44,4 +44,15 @@ public class VehicleController {
                 .created(URI.create("/api/vehicle/" + created.getvehicleReg)))
         .body(created);
     }
+    @PutMapping("/{reg}")
+    public ResponseEntity<vehicle> update(@PathVariable String reg, @Valid @RequestBody vehicle updated) {
+        Optional<vehicle> maybe = service.update(reg, updated);
+        return maybe.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        boolean removed = service.deleteByReg(reg);
+        return removed? ResponseEntity.noContent().build(): ResponseEntity.notFound().build();
+    }
 }
