@@ -28,4 +28,16 @@ public class VehicleService {
         store.add(v);
         return v;
     }
+    public Optional<vehicle> update(String reg, vehicle updated) {
+        for (vehicle v : store) {
+            if (v.getvehicleReg().equals(reg)) {
+                v.setName(updated.getdriverName());
+                v.setEmail(updated.getEmail());
+                return Optional.of(v);
+            }
+        }
+        return Optional.empty(); }
+    public boolean deleteByReg(String reg) {
+        return store.removeIf(v -> v.getvehicleReg().equals(reg));
+    }
 }
