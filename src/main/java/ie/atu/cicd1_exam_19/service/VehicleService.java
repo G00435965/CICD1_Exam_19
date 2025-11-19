@@ -22,12 +22,15 @@ public class VehicleService {
     }
 
     public vehicle create(vehicle v) {
-        if (findByReg(v.getvehicleReg()).isPresent()) {
-            throw new IllegalArgumentException("vehicleReg already exists");
+        for (vehicle pass : store) {
+            if (findByReg(v.getvehicleReg()).isPresent()) {
+                throw new DuplicateException("vehicle with reg:" + v.getvehicleReg() + "already exists");
+            }
+            store.add(v);
+            return v;
         }
-        store.add(v);
-        return v;
     }
+
     public Optional<vehicle> update(String reg, vehicle updated) {
         for (vehicle v : store) {
             if (v.getvehicleReg().equals(reg)) {
